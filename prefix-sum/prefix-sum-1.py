@@ -22,3 +22,26 @@ Problem Example: Given an array of integers, answer multiple queries asking for 
 -Efficient Computation of Range Queries: If you have a problem where you need to calculate certain properties over different subarrays multiple times (like sum, min, max, or count), prefix sums provide a great way to preprocess the data and answer queries quickly.
 '''
 
+def range_sum(arr, queries):
+    # Step 1: Compute prefix sum array
+    n = len(arr)
+    prefixSum = [0] * n
+    prefixSum[0] = arr[0]
+    for i in range(1, n):
+        prefixSum[i] = prefixSum[i-1] + arr[i]
+    
+    # Step 2: Answer each query
+    results = []
+    for l, r in queries:
+        if l == 0:
+            results.append(prefixSum[r])
+        else:
+            results.append(prefixSum[r] - prefixSum[l-1])
+    
+    return results
+
+# Example input
+arr = [2, 4, 6, 8, 10]
+queries = [(1, 3), (0, 2), (2, 4)]
+
+print(range_sum(arr, queries))
